@@ -5,21 +5,44 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Github, Linkedin, Mail } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
 
 export default function Contact() {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Handle form submission here
-    setTimeout(() => {
-      setIsSubmitting(false)
+    setSubmitStatus("idle")
+    setErrorMessage("")
+
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.from("contact_form").insert([
+        {
+          email,
+          message,
+        },
+      ])
+
+      if (error) {
+        throw error
+      }
+
+      setSubmitStatus("success")
       setEmail("")
       setMessage("")
-    }, 1000)
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setSubmitStatus("error")
+      setErrorMessage(error instanceof Error ? error.message : "Failed to send message. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const socialLinks = [
@@ -38,6 +61,16 @@ export default function Contact() {
 
         <div className="bg-card border border-border rounded-xl p-8 mb-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {submitStatus === "success" && (
+              <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-600 dark:text-green-400">
+                ✓ Message sent successfully! I'll get back to you soon.
+              </div>
+            )}
+            {submitStatus === "error" && (
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-600 dark:text-red-400">
+                ✗ {errorMessage}
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium mb-2">Email</label>
               <input

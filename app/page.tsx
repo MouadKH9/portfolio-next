@@ -30,13 +30,13 @@ export default async function Home() {
   )
 
   // Fetch projects
-  const { data: projects = [] } = await supabase.from("projects").select("*").order("order_index", { ascending: true })
+  const { data: projects } = await supabase.from("projects").select("*").order("order_index", { ascending: true })
 
   // Fetch skills
-  const { data: skills = [] } = await supabase.from("skills").select("*").order("order_index", { ascending: true })
+  const { data: skills } = await supabase.from("skills").select("*").order("order_index", { ascending: true })
 
   // Fetch experience
-  const { data: experience = [] } = await supabase
+  const { data: experience } = await supabase
     .from("experience")
     .select("*")
     .order("order_index", { ascending: true })
@@ -45,9 +45,9 @@ export default async function Home() {
     <main className="min-h-screen bg-background">
       <Navigation />
       <Hero />
-      <Projects projects={projects} />
-      <Skills skills={skills} />
-      <Experience experience={experience} />
+      <Projects projects={projects ?? []} />
+      <Skills skills={skills ?? []} />
+      <Experience experience={experience ?? []} />
       <Contact />
       <Footer />
     </main>

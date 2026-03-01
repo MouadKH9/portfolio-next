@@ -1,26 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 
 export default function Hero() {
-  const [typedText, setTypedText] = useState("")
-  const [showContent, setShowContent] = useState(false)
-  const fullText = "Senior Software Engineer"
   const heroRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let i = 0
-    const interval = setInterval(() => {
-      if (i <= fullText.length) {
-        setTypedText(fullText.slice(0, i))
-        i++
-      } else {
-        clearInterval(interval)
-        setTimeout(() => setShowContent(true), 300)
-      }
-    }, 50)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <section ref={heroRef} className="min-h-screen flex items-center justify-center relative overflow-hidden scanlines">
@@ -49,18 +32,18 @@ export default function Hero() {
         </div>
 
         {/* Main title with typing effect */}
-        <h1 className="font-[var(--font-display)] text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[0.95] mb-8 tracking-tight">
-          <span
-            className="glitch-text text-glow text-[#00ff41] block"
-            data-text={typedText}
-          >
-            {typedText}
-            <span className="cursor-blink text-[#00ff41]/60">|</span>
+        <h1 className="font-[var(--font-display)] text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[0.95] mb-8 tracking-tight text-[#00ff41]">
+          <span className="glitch-text text-glow block">
+            Senior Software
           </span>
+          <span className="glitch-text text-glow inline">
+            Engineer
+          </span>
+          <span className="cursor-blink text-[#00ff41]/60">|</span>
         </h1>
 
         {/* Subtitle */}
-        <div className={`transition-all duration-700 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className="animate-fade-in-up delay-200">
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12">
             I architect <span className="text-foreground">scalable systems</span> and craft{" "}
             <span className="text-foreground">elegant solutions</span>. Specialized in full-stack development,
@@ -87,7 +70,7 @@ export default function Hero() {
         </div>
 
         {/* Scroll indicator */}
-        <div className={`absolute -bottom-20 left-1/2 -translate-x-1/2 transition-all duration-700 delay-500 ${showContent ? "opacity-100" : "opacity-0"}`}>
+        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 animate-fade-in-up delay-500">
           <div className="flex flex-col items-center gap-2">
             <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">scroll</span>
             <div className="w-px h-8 bg-gradient-to-b from-[#00ff41]/40 to-transparent" />

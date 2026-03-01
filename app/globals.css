@@ -136,20 +136,6 @@ html {
 .glitch-text {
   position: relative;
 }
-.glitch-text::before,
-.glitch-text::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-}
-.glitch-text::before {
-  color: #00d4ff;
-  animation: glitch-1 3s infinite linear;
-}
-.glitch-text::after {
-  color: #ff0040;
-  animation: glitch-2 3s infinite linear;
-}
 
 /* Typing cursor */
 @keyframes blink-cursor {

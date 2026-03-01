@@ -1,92 +1,96 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useRef, useState } from "react"
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
+  const [typedText, setTypedText] = useState("")
+  const [showContent, setShowContent] = useState(false)
+  const fullText = "Senior Software Engineer"
+  const heroRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return
-
-      const rect = containerRef.current.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-
-      const moveX = (x - rect.width / 2) * 0.02
-      const moveY = (y - rect.height / 2) * 0.02
-
-      containerRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    let i = 0
+    const interval = setInterval(() => {
+      if (i <= fullText.length) {
+        setTypedText(fullText.slice(0, i))
+        i++
+      } else {
+        clearInterval(interval)
+        setTimeout(() => setShowContent(true), 300)
+      }
+    }, 50)
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden relative">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-72 h-72 bg-gradient-to-tl from-primary/10 to-transparent rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+    <section ref={heroRef} className="min-h-screen flex items-center justify-center relative overflow-hidden scanlines">
+      {/* Grid background */}
+      <div className="absolute inset-0 grid-bg" />
+
+      {/* Gradient orbs */}
+      <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-[#00ff41]/[0.03] rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-[#00d4ff]/[0.03] rounded-full blur-[120px]" />
+
+      {/* Decorative lines */}
+      <div className="absolute top-32 left-8 w-px h-32 bg-gradient-to-b from-transparent via-[#00ff41]/20 to-transparent hidden lg:block" />
+      <div className="absolute top-48 left-8 text-[10px] text-[#00ff41]/20 -rotate-90 origin-top-left tracking-widest hidden lg:block">
+        PORTFOLIO.2026
       </div>
+      <div className="absolute bottom-32 right-8 w-px h-32 bg-gradient-to-b from-transparent via-[#00d4ff]/20 to-transparent hidden lg:block" />
 
-      <div className="max-w-4xl mx-auto text-center">
-        <div ref={containerRef} className="transition-transform duration-300 ease-out">
-          {/* Badge */}
-          <div className="mb-8 inline-block animate-in fade-in slide-in-from-top-4 duration-700">
-            <span className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 hover:border-primary/40 transition-colors">
-              Mouad K.
-            </span>
-          </div>
+      <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+        {/* Terminal prompt */}
+        <div className="mb-8 animate-fade-in-up">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded border border-border bg-[#111] text-xs text-muted-foreground">
+            <span className="w-2 h-2 rounded-full bg-[#00ff41] animate-pulse" />
+            mouad@dev:~$
+            <span className="text-foreground ml-1">whoami</span>
+          </span>
+        </div>
 
-          <h1
-            ref={titleRef}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight text-balance animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100"
+        {/* Main title with typing effect */}
+        <h1 className="font-[var(--font-display)] text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[0.95] mb-8 tracking-tight">
+          <span
+            className="glitch-text text-glow text-[#00ff41] block"
+            data-text={typedText}
           >
-            <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-              Senior Software
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-              Engineer
-            </span>
-          </h1>
+            {typedText}
+            <span className="cursor-blink text-[#00ff41]/60">|</span>
+          </span>
+        </h1>
 
-          {/* Description */}
-          <p className="text-lg md:text-xl text-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-            Building scalable systems and elegant solutions. Specialized in full-stack development, cloud architecture,
-            and leading high-performance teams.
+        {/* Subtitle */}
+        <div className={`transition-all duration-700 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12">
+            I architect <span className="text-foreground">scalable systems</span> and craft{" "}
+            <span className="text-foreground">elegant solutions</span>. Specialized in full-stack development,
+            cloud infrastructure, and building products that{" "}
+            <span className="text-[#00ff41]">ship</span>.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-            <Button
-              size="lg"
-              className="group bg-primary hover:bg-primary/90 text-primary-foreground"
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
               onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+              className="group px-8 py-3 bg-[#00ff41] text-[#0a0a0a] font-bold text-sm uppercase tracking-widest hover:bg-[#00ff41]/90 transition-all glow-green"
             >
-              View My Work
-              <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="group bg-transparent"
+              View Work
+              <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </button>
+            <button
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="group px-8 py-3 border border-[#00ff41]/30 text-[#00ff41] font-bold text-sm uppercase tracking-widest hover:bg-[#00ff41]/5 hover:border-[#00ff41]/60 transition-all"
             >
               Get in Touch
-              <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">↓</span>
-            </Button>
+            </button>
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-foreground/30 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-foreground/30 rounded-full animate-pulse" />
+        <div className={`absolute -bottom-20 left-1/2 -translate-x-1/2 transition-all duration-700 delay-500 ${showContent ? "opacity-100" : "opacity-0"}`}>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">scroll</span>
+            <div className="w-px h-8 bg-gradient-to-b from-[#00ff41]/40 to-transparent" />
           </div>
         </div>
       </div>

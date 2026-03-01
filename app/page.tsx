@@ -29,20 +29,18 @@ export default async function Home() {
     },
   )
 
-  // Fetch projects
   const { data: projects } = await supabase.from("projects").select("*").order("order_index", { ascending: true })
-
-  // Fetch skills
   const { data: skills } = await supabase.from("skills").select("*").order("order_index", { ascending: true })
-
-  // Fetch experience
   const { data: experience } = await supabase
     .from("experience")
     .select("*")
     .order("order_index", { ascending: true })
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-[#0a0a0a] text-foreground">
+      {/* Noise texture overlay */}
+      <div className="noise-overlay" />
+
       <Navigation />
       <Hero />
       <Projects projects={projects ?? []} />

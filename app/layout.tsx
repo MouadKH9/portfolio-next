@@ -1,15 +1,21 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { JetBrains_Mono, Syne } from "next/font/google"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+})
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-display",
+})
 
 export const metadata: Metadata = {
-  title: "Senior Software Engineer - Portfolio",
+  title: "Mouad K. — Senior Software Engineer",
   description: "Full-stack engineer specializing in scalable systems and cloud architecture",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -18,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>{children}</body>
+    <html lang="en" className="dark">
+      <body className={`${jetbrainsMono.variable} ${syne.variable} font-mono antialiased`}>{children}</body>
     </html>
   )
 }

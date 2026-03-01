@@ -2,22 +2,21 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-border bg-muted/30 py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div>
-            <p className="text-foreground/60 text-sm">© {currentYear} Senior Software Engineer. All rights reserved.</p>
+    <footer className="border-t border-border/30 py-12 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="text-[#00ff41] text-sm">~/</span>
+            <span className="text-foreground font-bold text-sm">mouad.k</span>
           </div>
-          <div className="flex gap-6 text-sm text-foreground/60">
-            <a href="#" className="hover:text-foreground transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Terms
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Sitemap
-            </a>
+
+          <p className="text-muted-foreground text-xs tracking-wider">
+            &copy; {currentYear} — Designed & built with precision
+          </p>
+
+          <div className="flex gap-6 text-xs text-muted-foreground">
+            <a href="#" className="hover:text-[#00ff41] transition-colors">Privacy</a>
+            <a href="#" className="hover:text-[#00ff41] transition-colors">Terms</a>
           </div>
         </div>
       </div>

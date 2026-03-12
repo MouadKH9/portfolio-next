@@ -30,6 +30,7 @@ export default async function Home() {
   )
 
   const { data: projects } = await supabase.from("projects").select("*").order("order_index", { ascending: true })
+  const { data: projectImages } = await supabase.from("project_images").select("*").order("order_index", { ascending: true })
   const { data: skills } = await supabase.from("skills").select("*").order("order_index", { ascending: true })
   const { data: experience } = await supabase
     .from("experience")
@@ -43,7 +44,7 @@ export default async function Home() {
 
       <Navigation />
       <Hero />
-      <Projects projects={projects ?? []} />
+      <Projects projects={projects ?? []} projectImages={projectImages ?? []} />
       <Skills skills={skills ?? []} />
       <Experience experience={experience ?? []} />
       <Contact />

@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { JetBrains_Mono, Syne } from "next/font/google"
+import { PostHogProvider } from "@/components/posthog-provider"
 import "./globals.css"
 
 const jetbrainsMono = JetBrains_Mono({
@@ -25,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${jetbrainsMono.variable} ${syne.variable} font-mono antialiased`}>{children}</body>
+      <body className={`${jetbrainsMono.variable} ${syne.variable} font-mono antialiased`}>
+        <PostHogProvider>{children}</PostHogProvider>
+      </body>
     </html>
   )
 }
